@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/ru/hub/php/all/', function () {
+    return view('welcomet', ['title' => 'Test Project']);
+});
+
 Route::get('/webpack', function () {
     return view('webpack_test');
 });
