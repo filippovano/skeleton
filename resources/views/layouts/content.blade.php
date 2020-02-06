@@ -51,10 +51,7 @@
                                 width="24" height="24" class="user-info__image-pic user-info__image-pic_small">
                             <span class="user-info__nickname user-info__nickname_small">olegbunin</span>
                         </a>
-
                         <span class="post__time">сегодня в 12:42</span>
-
-
                     </header>
 
                     <h2 class="post__title">
