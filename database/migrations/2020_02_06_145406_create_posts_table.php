@@ -21,6 +21,7 @@ class CreatePostsTable extends Migration
             $table->string('header');
             $table->text('content');
             $table->bigInteger('rating');
+            $table->index('rating');
             $table->timestamps();
         });
     }

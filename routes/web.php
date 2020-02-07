@@ -16,7 +16,20 @@ Route::get('/', function () {
 });
 
 Route::get('/ru/hub/php/all/', function () {
-    return view('welcomet', ['title' => 'Test Project']);
+    $authors = \App\Author::all();
+    $posts = \App\Post::query()->with('author')->get();
+    dump($posts);
+    dump($posts->find(1));
+    dd($posts->find(1)->author);
+
+    var_dump($posts->find(1)->author_id);
+    var_dump($posts->find(1)->author);
+    var_dump($authors->find(5)->id);
+
+    return view('welcomet', [
+        'title'     => 'Test Project',
+        'posts'   => $posts,
+    ]);
 });
 
 Route::get('/webpack', function () {

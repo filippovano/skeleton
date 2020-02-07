@@ -9,7 +9,7 @@
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
-    <!-- Стили habr -->
+    {{-- Стили habr --}}
     <link href="https://dr.habracdn.net/habrcom/styles/1580818753/main.bundle.css" rel="stylesheet" media="all" />
 </head>
 <body>
@@ -19,7 +19,10 @@
     <div class="layout__row layout__row_body">
         <div class="layout__cell layout__cell_body">
             <div class="column-wrapper column-wrapper_tabs js-sticky-wrapper">
-                @include('layouts.content')
+                {{-- @include('layouts.content') --}}
+                <div class="content_left js-content_left">
+                    @yield('content')
+                </div>
     
                 @include('layouts.rightcol')
             </div>
@@ -27,7 +30,7 @@
     </div>
 </div>
 
-@yield('content')
+{{-- @yield('content') --}}
 <script defer src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
