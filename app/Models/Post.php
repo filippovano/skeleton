@@ -1,15 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    /**
-   * Атрибуты, для которых разрешено массовое назначение.
-   *
-   * @var array
-   */
-  protected $fillable = ['rating'];
+      /**
+     * Получить статью данного комментария.
+     */
+    public function author()
+    {
+        return $this->belongsTo(\App\Models\Author::class, 'author_id');
+    }
 }

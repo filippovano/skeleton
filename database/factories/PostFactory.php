@@ -7,6 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
     $authors = App\Author::all()->pluck('id')->toArray();
+    
     return [
         'author_id' => $faker->randomElement($authors),
         'header'    => substr($faker->sentence(2), 0, -1),

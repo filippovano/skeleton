@@ -170,13 +170,11 @@
                             </li>
 
                             <li class="post-stats__item post-stats__item_comments">
-                                <a href="https://habr.com/ru/company/oleg-bunin/blog/486844/#comments"
-                                    class="post-stats__comments-link" rel="nofollow">
+                                <a href="https://habr.com/ru/company/badoo/blog/487234/#comments" class="post-stats__comments-link" rel="nofollow">
                                     <svg class="icon-svg_post-comments" width="16" height="16">
-                                        <use
-                                            xlink:href="https://habr.com/images/1580818753/common-svg-sprite.svg#comment">
-                                    </svg><span class="post-stats__comments-text"
-                                        title="Добавить комментарий">Комментировать</span>
+                                        <use xlink:href="https://habr.com/images/1580983216/common-svg-sprite.svg#comment"></use>
+                                    </svg>
+                                    <span class="post-stats__comments-count" title="Читать комментарии">0</span>
                                 </a>
                             </li>
                         </ul>
