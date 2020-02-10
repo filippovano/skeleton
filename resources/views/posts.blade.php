@@ -9,33 +9,37 @@
         <div class="tabs__level tabs__level_bottom">
             <ul class="toggle-menu ">
                 <li class="toggle-menu__item">
-                    <a href="http://skeleton.test/ru/hub/php/all/"
-                        class="toggle-menu__item-link toggle-menu__item-link_active" rel="nofollow"
+                    <a href="http://skeleton.test/posts/all/"
+                        class="toggle-menu__item-link @if ($n == 0) toggle-menu__item-link_active @endif" rel="nofollow"
                         title="Все публикации в хронологическом порядке">
                         Без порога
                     </a>
                 </li>
                 <li class="toggle-menu__item">
-                    <a href="http://skeleton.test/ru/hub/php/top10/" class="toggle-menu__item-link " rel="nofollow"
-                        title="Все публикации с рейтингом 10 и выше">
+                    <a href="http://skeleton.test/posts/top10/"
+                       class="toggle-menu__item-link @if ($n == 10) toggle-menu__item-link_active @endif" rel="nofollow"
+                       title="Все публикации с рейтингом 10 и выше">
                         ≥10
                     </a>
                 </li>
                 <li class="toggle-menu__item">
-                    <a href="http://skeleton.test/ru/hub/php/top25/" class="toggle-menu__item-link " rel="nofollow"
-                        title="Все публикации с рейтингом 25 и выше">
+                    <a href="http://skeleton.test/posts/top25/"
+                       class="toggle-menu__item-link @if ($n == 25) toggle-menu__item-link_active @endif" rel="nofollow"
+                       title="Все публикации с рейтингом 25 и выше">
                         ≥25
                     </a>
                 </li>
                 <li class="toggle-menu__item">
-                    <a href="http://skeleton.test/ru/hub/php/top50/" class="toggle-menu__item-link " rel="nofollow"
-                        title="Все публикации с рейтингом 50 и выше">
+                    <a href="http://skeleton.test/posts/top50/"
+                       class="toggle-menu__item-link @if ($n == 50) toggle-menu__item-link_active @endif" rel="nofollow"
+                       title="Все публикации с рейтингом 50 и выше">
                         ≥50
                     </a>
                 </li>
                 <li class="toggle-menu__item">
-                    <a href="http://skeleton.test/ru/hub/php/top100/" class="toggle-menu__item-link " rel="nofollow"
-                        title="Все публикации с рейтингом 100 и выше">
+                    <a href="http://skeleton.test/posts/top100/"
+                       class="toggle-menu__item-link @if ($n == 100) toggle-menu__item-link_active @endif" rel="nofollow"
+                       title="Все публикации с рейтингом 100 и выше">
                         ≥100
                     </a>
                 </li>
@@ -44,7 +48,7 @@
     </div>
 
     <div class="posts_list">
-        <ul class="content-list shortcuts_items">
+        <ul class="content-list shortcuts_items container">
             @foreach ($posts as $post)
                 <li class="content-list__item content-list__item_post shortcuts_item" id="post_{{ $post->id }}">
                     <article class="post post_preview" lang="ru">
@@ -59,7 +63,7 @@
                         </header>
 
                         <h2 class="post__title">
-                            <a href="http://skeleton.test/ru/posts/{{ $post->id }}" class="post__title_link">
+                            <a href="http://skeleton.test/posts/{{ $post->id }}" class="post__title_link">
                                 {{ $post->header }}
                             </a>
                         </h2>
@@ -70,7 +74,7 @@
                             </div>
 
                             <a class="btn btn_x-large btn_outline_blue post__habracut-btn"
-                                href="http://skeleton.test/ru/posts/{{ $post->id }}">
+                                href="http://skeleton.test/posts/{{ $post->id }}">
                                 Читать дальше &rarr;
                             </a>
                         </div>
