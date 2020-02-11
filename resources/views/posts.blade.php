@@ -70,7 +70,7 @@
 
                         <div class="post__body post__body_crop ">
                             <div class="post__text post__text-html">
-                                {{ $post->content }}
+                                    {{ explode('.', $post->content)[0] }}
                             </div>
 
                             <a class="btn btn_x-large btn_outline_blue post__habracut-btn"

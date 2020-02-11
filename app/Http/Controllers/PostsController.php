@@ -31,6 +31,8 @@ class PostsController extends Controller
      */
     public function showRatingGreater($n)
     {
+        $n = htmlspecialchars($n);
+
         $posts = \App\Models\Post::where('rating', '>', $n)->orderBy('rating', 'desc')->get();
 
         $page = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage('page');
@@ -56,6 +58,8 @@ class PostsController extends Controller
  */
     public function show($id)
     {
+        $id = htmlspecialchars($id);
+
         $post = \App\Models\Post::find($id);
 
         return view('post', [
@@ -72,6 +76,8 @@ class PostsController extends Controller
      */
     public function ratingPlus($id)
     {
+        $id = htmlspecialchars($id);
+
         $post = \App\Models\Post::find($id);
         $post->rating += 1;
         $post->save();
@@ -88,6 +94,8 @@ class PostsController extends Controller
      */
     public function ratingMinus($id)
     {
+        $id = htmlspecialchars($id);
+
         $post = \App\Models\Post::find($id);
         $post->rating -= 1;
         $post->save();

@@ -17,6 +17,7 @@ class CreateAuthorsTable extends Migration
             $table->increments('id');
             $table->string('link');
             $table->string('username');
+            $table->string('fullName');
             $table->string('image');
             $table->timestamps();
         });

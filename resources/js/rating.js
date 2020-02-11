@@ -13,7 +13,7 @@ $( document ).ready(function() {
                            // получаем тело ответа (см. про этот метод ниже)
             let text = await response.text();
             console.log(text);
-            $(this).siblings('span').text(`+${text}`);
+            $(this).siblings('span').text(`${text}`);
             // console.log($(this));
         } else {
             alert("Ошибка HTTP: " + response.status);
@@ -34,7 +34,7 @@ $( document ).ready(function() {
             // получаем тело ответа (см. про этот метод ниже)
             let text = await response.text();
             console.log(text);
-            $(this).siblings('span').text(`+${text}`);
+            $(this).siblings('span').text(`${text}`);
         } else {
             alert("Ошибка HTTP: " + response.status);
         }

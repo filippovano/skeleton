@@ -20118,7 +20118,7 @@ $(document).ready(function () {
           case 8:
             text = _context.sent;
             console.log(text);
-            $(this).siblings('span').text("+".concat(text)); // console.log($(this));
+            $(this).siblings('span').text("".concat(text)); // console.log($(this));
 
             _context.next = 14;
             break;
@@ -20167,7 +20167,7 @@ $(document).ready(function () {
           case 8:
             text = _context2.sent;
             console.log(text);
-            $(this).siblings('span').text("+".concat(text));
+            $(this).siblings('span').text("".concat(text));
             _context2.next = 14;
             break;
 

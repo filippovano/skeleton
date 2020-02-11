@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
             $table->index('author_id');
             $table->string('header');
             $table->text('content');
-            $table->bigInteger('rating');
+            $table->integer('rating');
             $table->index('rating');
             $table->timestamps();
         });

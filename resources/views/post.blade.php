@@ -49,7 +49,7 @@
                         </button>
 
                         <span class="voting-wjt__counter  voting-wjt__counter_positive  js-score"
-                            onclick="posts_vote_result(33, 30, 3)" title="Всего голосов {{ $post->rating }}">+{{ $post->rating }}</span>
+                            onclick="posts_vote_result(33, 30, 3)" title="Всего голосов {{ $post->rating }}">{{ $post->rating }}</span>
 
                         <button type="button" class="btn voting-wjt__button " data-action="minus">
                             <svg class="icon-svg_arrow-down" width="10" height="16" id="vote-arrow" viewBox="0 0 15 24">
@@ -109,7 +109,7 @@
                         <div class="user-info__about">
                             <div class="user-info__links">
                                 <a href="{{ $post->author->link }}" class="user-info__fullname">
-                                    {{ $post->author->username }}
+                                    {{ $post->author->fullName }}
                                 </a>&nbsp;
                                 <a href="{{ $post->author->link }}" class="user-info__nickname user-info__nickname_doggy">
                                     {{ $post->author->username }}
