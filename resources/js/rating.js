@@ -1,40 +1,20 @@
+const myHeaders = new Headers();
+myHeaders.append('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+
 $( document ).ready(function() {
-    $(document).on('click', '.btn.voting-wjt__button[data-action="plus"]', async function () {
-        let id = $(this).parent().attr('data-id');
-        let url = `http://skeleton.test/posts/${id}/plus`;
+    $(document).on('click', '.btn.voting-wjt__button', async function () {
+        let id = $(this).parent().data('id');
+        let action = $(this).data('action');
+        let url = `/posts/${id}/${action}`;
+
         let response = await fetch(url, {
             method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+            headers: myHeaders,
         });
 
         if (response.ok) { // если HTTP-статус в диапазоне 200-299
-                           // получаем тело ответа (см. про этот метод ниже)
-            let text = await response.text();
-            console.log(text);
-            $(this).siblings('span').text(`${text}`);
-            // console.log($(this));
-        } else {
-            alert("Ошибка HTTP: " + response.status);
-        }
-    });
-
-    $(document).on('click', '.btn.voting-wjt__button[data-action="minus"]', async function () {
-        let id = $(this).parent().attr('data-id');
-        let url = `http://skeleton.test/posts/${id}/minus`;
-        let response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        if (response.ok) { // если HTTP-статус в диапазоне 200-299
-            // получаем тело ответа (см. про этот метод ниже)
-            let text = await response.text();
-            console.log(text);
-            $(this).siblings('span').text(`${text}`);
+            let json = await response.json();   // получаем тело ответа
+            $(this).siblings('span').text(json['rating']);
         } else {
             alert("Ошибка HTTP: " + response.status);
         }

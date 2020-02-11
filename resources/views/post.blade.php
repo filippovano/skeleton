@@ -1,3 +1,6 @@
+<?
+/** @var \Illuminate\Database\Eloquent\Collection|\App\Models\Post $post */
+?>
 @extends('layouts.maint')
 
 @section('title')
@@ -60,36 +63,6 @@
                             </svg>
                         </button>
                     </div>
-                </li>
-
-                <li class="post-stats__item post-stats__item_bookmark">
-                    <button type="button" class="btn bookmark-btn bookmark-btn_post "
-                        data-post-type="publish_corp_ru,c_oleg-bunin,c_manychat,h_4,h_260,h_17691,f_develop"
-                        data-type="2" data-id="486844" data-action="add"
-                        title="Только зарегистрированные пользователи могут добавлять публикации в закладки"
-                        onclick="posts_add_to_favorite(this);" disabled="">
-                        <span class="btn_inner"><svg class="icon-svg_bookmark" width="10" height="16">
-                                <use xlink:href="https://habr.com/images/1580983216/common-svg-sprite.svg#book"></use>
-                            </svg><span class="bookmark__counter js-favs_count"
-                                title="Количество пользователей, добавивших публикацию в закладки">57</span></span>
-                    </button>
-                </li>
-
-                <li class="post-stats__item post-stats__item_views">
-                    <div class="post-stats__views" title="Количество просмотров">
-                        <svg class="icon-svg_views-count" width="21" height="12">
-                            <use xlink:href="https://habr.com/images/1580983216/common-svg-sprite.svg#eye"></use>
-                        </svg><span class="post-stats__views-count">4,7k</span>
-                    </div>
-                </li>
-
-                <li class="post-stats__item post-stats__item_comments">
-                    <a href="https://habr.com/ru/company/oleg-bunin/blog/486844/#comments"
-                        class="post-stats__comments-link" rel="nofollow">
-                        <svg class="icon-svg_post-comments" width="16" height="16">
-                            <use xlink:href="https://habr.com/images/1580983216/common-svg-sprite.svg#comment"></use>
-                        </svg><span class="post-stats__comments-count" title="Читать комментарии">10</span>
-                    </a>
                 </li>
             </ul>
 

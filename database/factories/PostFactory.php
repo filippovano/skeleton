@@ -3,10 +3,11 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Models\Post;
+use App\Models\Author;
 use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
-    $authors = App\Models\Author::all()->pluck('id')->toArray();
+    $authors = Author::all()->pluck('id')->toArray();
 
     return [
         'author_id' => $faker->randomElement($authors),

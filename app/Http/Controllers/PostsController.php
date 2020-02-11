@@ -2,65 +2,76 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use function typeOf;
 
 class PostsController extends Controller
 {
     /**
-     * Показать все посты.
+     * Показать посты.
      *
-     * @param  null
-     * @return Response
+     * @param  Request  $request
+     * @param  string $rule
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showAll()
+    public function showPosts(Request $request, $rule)
     {
-        $posts = \App\Models\Post::paginate(5);
+        define("PER_PAGE", 5);
+
+        $page = $request->get('page');
+        $page = (isset($page))? intval($page) : 1;
+
+        if ($rule == 'all') {
+            $title = "Все посты";
+
+            $ratingValue = 0;
+
+            $posts = Post::query()->forPage($page, PER_PAGE)->get();
+
+            $countPosts = Post::query()->count();
+        } else {
+            $ratingValue = substr($rule, 3);
+
+            $title = "Рейтинг больше {$ratingValue}";
+
+            $posts = Post::query()
+                ->where('rating', '>', $ratingValue)
+                ->orderBy('rating', 'desc')
+                ->forPage($page, PER_PAGE)
+                ->get();
+
+            $countPosts = Post::query()
+                ->where('rating', '>', $ratingValue)
+                ->count();
+        }
+
+        $countPages = intval(ceil($countPosts / PER_PAGE));
 
         return view('posts', [
-            'title'     => 'Все посты',
-            'n'         => 0,
-            'posts'     => $posts,
+            'title'         => $title,
+            'ratingValue'   => $ratingValue,
+            'posts'         => $posts,
+            'page'          => $page,
+            'countPages'    => $countPages,
         ]);
     }
 
     /**
-     * Показать ТОП N постов.
+     * Показать пост с id.
      *
-     * @param  int n
-     * @return Response
+     * @param int id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
-    public function showRatingGreater($n)
-    {
-        $n = htmlspecialchars($n);
-
-        $posts = \App\Models\Post::where('rating', '>', $n)->orderBy('rating', 'desc')->get();
-
-        $page = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage('page');
-
-        $posts = new \Illuminate\Pagination\LengthAwarePaginator(
-            $posts->forPage($page, 5),
-            $posts->count(),
-            5);
-        $posts->setPath("http://skeleton.test/posts/top{$n}");
-
-        return view('posts', [
-            'title'     => "Рейтинг больше {$n}",
-            'n'         => $n,
-            'posts'     => $posts,
-        ]);
-    }
-
-    /**
- * Показать пост с id.
- *
- * @param  int id
- * @return Response
- */
     public function show($id)
     {
-        $id = htmlspecialchars($id);
+        $post = Post::query()->find($id);
 
-        $post = \App\Models\Post::find($id);
+        if (!isset($post)) {
+            throw(new \ErrorException('Такого поста не существует'));
+        }
 
         return view('post', [
             'title'     => "Пост \"{$post->header}\"",
@@ -69,38 +80,31 @@ class PostsController extends Controller
     }
 
     /**
-     * Увеличение рейтинга поста с id.
+     * Изменение рейтинга поста с id.
      *
-     * @param  int id
-     * @return Response
+     * @param int $id
+     * @param string $action
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function ratingPlus($id)
+    public function ratingAction($id, $action)
     {
-        $id = htmlspecialchars($id);
+        $post = Post::query()->find($id);
 
-        $post = \App\Models\Post::find($id);
-        $post->rating += 1;
+        if (!isset($post)) {
+            throw(new \Exception('Такого поста не существует'));
+        }
+
+        if ($action === 'plus') {
+            $post->rating += 1;
+        } else {
+            $post->rating -= 1;
+        }
+
         $post->save();
 
-        return response($post->rating, 200)
-            ->header('Content-Type', 'text/plain');
-    }
-
-    /**
-     * Уменьшение рейтинга поста с id.
-     *
-     * @param  int id
-     * @return Response
-     */
-    public function ratingMinus($id)
-    {
-        $id = htmlspecialchars($id);
-
-        $post = \App\Models\Post::find($id);
-        $post->rating -= 1;
-        $post->save();
-
-        return response($post->rating, 200)
-            ->header('Content-Type', 'text/plain');
+        return response()->json([
+            'rating' => $post->rating,
+        ]);
     }
 }

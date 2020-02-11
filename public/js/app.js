@@ -20083,28 +20083,29 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+var myHeaders = new Headers();
+myHeaders.append('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
 $(document).ready(function () {
-  $(document).on('click', '.btn.voting-wjt__button[data-action="plus"]',
+  $(document).on('click', '.btn.voting-wjt__button',
   /*#__PURE__*/
   _asyncToGenerator(
   /*#__PURE__*/
   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-    var id, url, response, text;
+    var id, action, url, response, json;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            id = $(this).parent().attr('data-id');
-            url = "http://skeleton.test/posts/".concat(id, "/plus");
-            _context.next = 4;
+            id = $(this).parent().data('id');
+            action = $(this).data('action');
+            url = "/posts/".concat(id, "/").concat(action);
+            _context.next = 5;
             return fetch(url, {
               method: 'POST',
-              headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              }
+              headers: myHeaders
             });
 
-          case 4:
+          case 5:
             response = _context.sent;
 
             if (!response.ok) {
@@ -20112,14 +20113,13 @@ $(document).ready(function () {
               break;
             }
 
-            _context.next = 8;
-            return response.text();
+            _context.next = 9;
+            return response.json();
 
-          case 8:
-            text = _context.sent;
-            console.log(text);
-            $(this).siblings('span').text("".concat(text)); // console.log($(this));
-
+          case 9:
+            json = _context.sent;
+            // получаем тело ответа
+            $(this).siblings('span').text(json['rating']);
             _context.next = 14;
             break;
 
@@ -20132,54 +20132,6 @@ $(document).ready(function () {
         }
       }
     }, _callee, this);
-  })));
-  $(document).on('click', '.btn.voting-wjt__button[data-action="minus"]',
-  /*#__PURE__*/
-  _asyncToGenerator(
-  /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-    var id, url, response, text;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            id = $(this).parent().attr('data-id');
-            url = "http://skeleton.test/posts/".concat(id, "/minus");
-            _context2.next = 4;
-            return fetch(url, {
-              method: 'POST',
-              headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              }
-            });
-
-          case 4:
-            response = _context2.sent;
-
-            if (!response.ok) {
-              _context2.next = 13;
-              break;
-            }
-
-            _context2.next = 8;
-            return response.text();
-
-          case 8:
-            text = _context2.sent;
-            console.log(text);
-            $(this).siblings('span').text("".concat(text));
-            _context2.next = 14;
-            break;
-
-          case 13:
-            alert("Ошибка HTTP: " + response.status);
-
-          case 14:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2, this);
   })));
 });
 

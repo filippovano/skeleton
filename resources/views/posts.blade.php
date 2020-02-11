@@ -1,3 +1,6 @@
+<?
+/** @var \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts */
+?>
 @extends('layouts.maint')
 
 @section('title')
@@ -8,41 +11,15 @@
     <div class="tabs">
         <div class="tabs__level tabs__level_bottom">
             <ul class="toggle-menu ">
-                <li class="toggle-menu__item">
-                    <a href="http://skeleton.test/posts/all/"
-                        class="toggle-menu__item-link @if ($n == 0) toggle-menu__item-link_active @endif" rel="nofollow"
-                        title="Все публикации в хронологическом порядке">
-                        Без порога
-                    </a>
-                </li>
-                <li class="toggle-menu__item">
-                    <a href="http://skeleton.test/posts/top10/"
-                       class="toggle-menu__item-link @if ($n == 10) toggle-menu__item-link_active @endif" rel="nofollow"
-                       title="Все публикации с рейтингом 10 и выше">
-                        ≥10
-                    </a>
-                </li>
-                <li class="toggle-menu__item">
-                    <a href="http://skeleton.test/posts/top25/"
-                       class="toggle-menu__item-link @if ($n == 25) toggle-menu__item-link_active @endif" rel="nofollow"
-                       title="Все публикации с рейтингом 25 и выше">
-                        ≥25
-                    </a>
-                </li>
-                <li class="toggle-menu__item">
-                    <a href="http://skeleton.test/posts/top50/"
-                       class="toggle-menu__item-link @if ($n == 50) toggle-menu__item-link_active @endif" rel="nofollow"
-                       title="Все публикации с рейтингом 50 и выше">
-                        ≥50
-                    </a>
-                </li>
-                <li class="toggle-menu__item">
-                    <a href="http://skeleton.test/posts/top100/"
-                       class="toggle-menu__item-link @if ($n == 100) toggle-menu__item-link_active @endif" rel="nofollow"
-                       title="Все публикации с рейтингом 100 и выше">
-                        ≥100
-                    </a>
-                </li>
+                @foreach([0, 10, 25, 50, 100] as $rating)
+                    <li class="toggle-menu__item">
+                        <a href="/posts/@if($rating == 0)all/@else{{'top' . $rating }}@endif"
+                            class="toggle-menu__item-link @if ($ratingValue == $rating) toggle-menu__item-link_active @endif"
+                            rel="nofollow"
+                            title=@if($rating == 0)"Все публикации в хронологическом порядке"@else"Все публикации с рейтингом {{ $rating }} и выше"@endif>
+                            @if ($rating == 0)Без порога@else≥{{ $rating }}@endif</a>
+                    </li>
+                @endforeach
             </ul>
         </div>
     </div>
@@ -63,7 +40,7 @@
                         </header>
 
                         <h2 class="post__title">
-                            <a href="http://skeleton.test/posts/{{ $post->id }}" class="post__title_link">
+                            <a href="/posts/{{ $post->id }}" class="post__title_link">
                                 {{ $post->header }}
                             </a>
                         </h2>
@@ -74,7 +51,7 @@
                             </div>
 
                             <a class="btn btn_x-large btn_outline_blue post__habracut-btn"
-                                href="http://skeleton.test/posts/{{ $post->id }}">
+                                href="/posts/{{ $post->id }}">
                                 Читать дальше &rarr;
                             </a>
                         </div>
@@ -94,39 +71,10 @@
                                         </span>
 
                                         <span class="post-stats__result-counter voting-wjt__counter_positive "
-                                            title="Всего голосов 11: &uarr;11 и &darr;0">{{ $post->rating }}</span>
+                                            title="{{ $post->rating }}">{{ $post->rating }}</span>
                                     </div>
                                 </li>
-                                <li class="post-stats__item post-stats__item_bookmark">
-                                    <button type="button" class="btn bookmark-btn bookmark-btn_post "
-                                        data-post-type="publish_corp_ru,c_oleg-bunin,c_manychat,h_4,h_260,h_17691,f_develop"
-                                        data-type="2" data-id="486844" data-action="add"
-                                        title="Только зарегистрированные пользователи могут добавлять публикации в закладки"
-                                        onclick="posts_add_to_favorite(this);" disabled>
-                                        <span class="btn_inner"><svg class="icon-svg_bookmark" width="10" height="16">
-                                                <use
-                                                    xlink:href="https://habr.com/images/1580818753/common-svg-sprite.svg#book" />
-                                                </svg><span class="bookmark__counter js-favs_count"
-                                                title="Количество пользователей, добавивших публикацию в закладки">0</span></span>
-                                    </button>
-                                </li>
-
-                                <li class="post-stats__item post-stats__item_views">
-                                    <div class="post-stats__views" title="Количество просмотров">
-                                        <svg class="icon-svg_views-count" width="21" height="12">
-                                            <use
-                                                xlink:href="https://habr.com/images/1580818753/common-svg-sprite.svg#eye" />
-                                            </svg><span class="post-stats__views-count">0</span>
-                                    </div>
-                                </li>
-
                                 <li class="post-stats__item post-stats__item_comments">
-                                    <a href="https://habr.com/ru/company/badoo/blog/487234/#comments" class="post-stats__comments-link" rel="nofollow">
-                                        <svg class="icon-svg_post-comments" width="16" height="16">
-                                            <use xlink:href="https://habr.com/images/1580983216/common-svg-sprite.svg#comment"></use>
-                                        </svg>
-                                        <span class="post-stats__comments-count" title="Читать комментарии">0</span>
-                                    </a>
                                 </li>
                             </ul>
                         </footer>
@@ -137,5 +85,43 @@
         </ul>
     </div>
 
-    {{ $posts->links() }}
+    <div class="page__footer">
+        <ul class="arrows-pagination">
+            <li class="arrows-pagination__item">
+                @if($page != 1)
+                    <a title="На страницу назад (Alt + ←)"
+                        class="arrows-pagination__item-link arrows-pagination__item-link_prev" id="previous_page"
+                        href="/posts/@if($ratingValue == 0){{ 'all' }}@else{{ 'top' . $ratingValue }}@endif{{ '' }}@if($page != 2)?page={{ $page - 1 }}@endif"
+                        rel="">
+                        <span>←&nbsp;сюда</span>
+                    </a>
+                @else
+                    <span class="arrows-pagination__item-link">←&nbsp;сюда</span>
+                @endif
+            </li>
+            <li class="arrows-pagination__item">
+                @if($page != $countPages)
+                    <a title="На страницу назад (Alt + ←)"
+                        class="arrows-pagination__item-link arrows-pagination__item-link_prev" id="previous_page"
+                        href="/posts/@if($ratingValue == 0){{ 'all' }}@else{{ 'top' . $ratingValue }}@endif?page={{ $page + 1 }}" rel="">
+                        <span>туда&nbsp;→</span>
+                    </a>
+                @else
+                    <span class="arrows-pagination__item-link">туда&nbsp;→</span>
+                @endif
+            </li>
+        </ul>
+
+        <ul class="toggle-menu toggle-menu_pagination" id="nav-pagess">
+            @for ($i = 1; $i <= $countPages; ++$i)
+                <li class="toggle-menu__item toggle-menu__item_pagination">
+                    <a href="/posts/@if($ratingValue == 0){{ 'all' }}@else{{ 'top' . $ratingValue }}@endif{{ '' }}@if($i != 1)?page={{ $i }}@endif"
+                       class="toggle-menu__item-link toggle-menu__item-link_pagination @if($page == $i)toggle-menu__item-link_active @endif">
+                        {{ $i }}
+                    </a>
+                </li>
+            @endfor
+        </ul>
+    </div>
+
 @endsection

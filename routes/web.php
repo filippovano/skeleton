@@ -11,23 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+//
+//Route::get('/webpack', function () {
+//    return view('webpack_test');
+//});
+//
+//Route::get('robots.txt', 'RobotsTxtController');
 
-Route::get('/webpack', function () {
-    return view('webpack_test');
-});
-
-Route::get('robots.txt', 'RobotsTxtController');
 
 
-Route::get('/posts/all/', 'PostsController@showAll');
-
-Route::get('/posts/top{n}/', 'PostsController@showRatingGreater');
+Route::get('/posts/{rule}', 'PostsController@showPosts')->where('rule', 'all|top\d+');
 
 Route::get('/posts/{id}', 'PostsController@show');
 
-Route::post('/posts/{id}/plus', 'PostsController@ratingPlus');
-
-Route::post('/posts/{id}/minus', 'PostsController@ratingMinus');
+Route::post('/posts/{id}/{action}', 'PostsController@ratingAction');
